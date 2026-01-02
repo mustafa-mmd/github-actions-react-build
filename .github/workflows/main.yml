@@ -1,4 +1,4 @@
-name: React Build
+name: React Build Only
 
 on:
   push:
@@ -7,25 +7,23 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      # 1️⃣ Checkout code
-      - uses: actions/checkout@v4
+      # 1️⃣ Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       # 2️⃣ Setup Node.js
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      # 3️⃣ Optional: Cache npm
-      - name: Cache npm
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: npm-${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+      # 3️⃣ Install dependencies
+      - name: Install dependencies
+        run: npm install
 
-      # 4️⃣ Install dependencies
-      - run: npm install
+      # 4️⃣ Build the React app
+      - name: Build React App
+        run: npm run build
 
-      # 5️⃣ Build React app
-      - run: npm run build
-      
